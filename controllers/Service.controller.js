@@ -10,6 +10,15 @@ export const getService = async (req, res) => {
   }
 };
 
+export const getServiceLimit = async (req, res) => {
+  try {
+    const service = await ServiceModel.find().limit(req.params.limit);
+    return res.status(200).json(service);
+  } catch (error) {
+    return res.status(500).json({ error });
+  }
+};
+
 export const createService = async (req, res) => {
   const reqService = req.body;
   try {
