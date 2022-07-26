@@ -6,6 +6,8 @@ import dotenv from "dotenv";
 import address from "./routers/Address.router.js";
 import phoneNumber from "./routers/Phone.router.js";
 import mesengerHeader from "./routers/MesengerHeader.router.js";
+import service from "./routers/Service.router.js";
+import about from "./routers/About.router.js";
 
 const mongoAtlasUri =
   "mongodb+srv://admin:1@cluster0.swg4v.mongodb.net/huyentrang?retryWrites=true&w=majority";
@@ -21,6 +23,8 @@ app.use(cors());
 app.use("/", address);
 app.use("/", phoneNumber);
 app.use("/", mesengerHeader);
+app.use("/", service);
+app.use("/", about);
 
 
 try {
