@@ -1,5 +1,6 @@
-import { ServiceDetailModel } from "../models/sevices/ServiceDetail.model.js";
-import { ServiceModel } from "../models/sevices/Service.model.js";
+import { ServiceDetailModel } from "../../models/sevices/ServiceDetail.model.js";
+import { ServiceModel } from "../../models/sevices/Service.model.js";
+import { ServiceTypeModel } from "../../models/sevices/ServiceType.model.js";
 
 export const getService = async (req, res) => {
   try {
@@ -21,11 +22,15 @@ export const getServiceLimit = async (req, res) => {
 
 export const createService = async (req, res) => {
   const reqService = req.body;
+  const serviceType = await ServiceTypeModel.findById({
+    _id: reqService.serviceType,
+  });
   try {
     const service = new ServiceModel({
       name: reqService.name,
       image: reqService.image,
       description: reqService.description,
+      serviceType: serviceType._id,
     });
     await service.save();
     if (reqService.detailService) {
@@ -47,6 +52,8 @@ export const createService = async (req, res) => {
 
 export const updateService = async (req, res) => {
   const reqService = req.body;
+  const serviceType = await ServiceTypeModel.findById({_id: reqService.serviceType});
+  
   try {
     const service = await ServiceModel.findOneAndUpdate(
       { _id: reqService._id },
@@ -54,6 +61,7 @@ export const updateService = async (req, res) => {
         name: reqService.name,
         image: reqService.image,
         description: reqService.description,
+        serviceType: serviceType._id,
       },
       { new: true }
     );
