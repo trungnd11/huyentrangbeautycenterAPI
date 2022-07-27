@@ -4,7 +4,9 @@ import { ServiceTypeModel } from "../../models/sevices/ServiceType.model.js";
 
 export const getService = async (req, res) => {
   try {
-    const service = await ServiceModel.find();
+    const service = await ServiceModel.find()
+      .populate("serviceType")
+      .exec();
     return res.status(200).json(service);
   } catch (error) {
     return res.status(500).json({ error });
