@@ -5,7 +5,7 @@ const service = express.Router();
 
 service.get("/service", getService);
 service.get("/service/limit-:limit", getServiceLimit);
-service.get("/service/type-:type", findServiceByType);
+service.get("/service/type", findServiceByType);
 service.post("/service", createService);
 service.put("/service", updateService);
 service.delete("/service", deleteService);

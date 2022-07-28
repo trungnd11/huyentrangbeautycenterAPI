@@ -25,7 +25,7 @@ export const getServiceLimit = async (req, res) => {
 export const findServiceByType = async (req, res) => {
   try {
     const services = await ServiceModel.find().or({
-      serviceType: req.params.type,
+      serviceType: req.body.serviceType,
     });
     return res.status(200).json(services);
   } catch (error) {
