@@ -11,6 +11,7 @@ import serviceType from "./routers/services/ServiceType.router.js";
 import about from "./routers/About.router.js";
 import banner from "./routers/Banner.router.js";
 import experience from "./routers/Experience.router.js";
+import expert from "./routers/Expert.router.js";
 
 const mongoAtlasUri =
   "mongodb+srv://admin:1@cluster0.swg4v.mongodb.net/huyentrang?retryWrites=true&w=majority";
@@ -31,6 +32,7 @@ app.use("/", service);
 app.use("/", serviceType);
 app.use("/", about);
 app.use("/", experience);
+app.use("/", expert);
 
 
 try {
