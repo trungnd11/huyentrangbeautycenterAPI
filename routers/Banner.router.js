@@ -1,10 +1,11 @@
 import experss from "express";
-import { createBanner, getBanner, updateBanner } from "../controllers/Banner.controller.js";
+import { createBanner, deleteBanner, getBanner, updateBanner } from "../controllers/Banner.controller.js";
 
 const banner = experss.Router();
 
 banner.get("/banners", getBanner);
 banner.post("/banners", createBanner);
 banner.put("/banners", updateBanner);
+banner.delete("/banners/:id", deleteBanner);
 
 export default banner;

@@ -27,3 +27,14 @@ export const updateBanner = async (req, res) => {
     return res.status(500).json({ error });
   }
 };
+
+export const deleteBanner = async (req, res) => {
+  try {
+    await BannerModel.remove({ _id: req.params.id });
+    return res.status(200).json({
+      succsess: "succsess",
+    });
+  } catch (error) {
+    return res.status(500).json({ error });
+  }
+};
