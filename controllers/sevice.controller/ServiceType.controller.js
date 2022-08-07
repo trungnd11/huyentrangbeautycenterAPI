@@ -18,3 +18,21 @@ export const createServiceType = async (req, res) => {
     return res.status(500).json({ error });
   }
 }
+
+export const updateServiceType = async (req, res) => {
+  try {
+    const serviceType = await ServiceTypeModel.findOneAndUpdate({_id: req.body._id}, req.body, { new: true })
+    return res.status(201).json(serviceType);
+  } catch (error) {
+    return res.status(500).json({ error });
+  }
+};
+
+export const deleteServiceType = async (req, res) => {
+  try {
+    const serviceType = await ServiceTypeModel.remove({ _id: req.params.id })
+    return res.status(200).json(serviceType);
+  } catch (error) {
+    return res.status(500).json({ error });
+  }
+};
