@@ -12,7 +12,8 @@ const ExpertSchema = new Schema({
   description: String,
   linkFb: String,
   linkZalo: String,
-  linkInsta: String
+  linkInsta: String,
+  linkMess: String
 }, { timestamps: true });
 
 export const ExpertModel = mongoose.model("expert", ExpertSchema);
