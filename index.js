@@ -12,6 +12,7 @@ import banner from "./routers/Banner.router.js";
 import experience from "./routers/Experience.router.js";
 import expert from "./routers/Expert.router.js";
 import galleryCustomer from "./routers/GalleryCustomer.router.js";
+import user from "./routers/User.router.js";
 
 const mongoAtlasUri =
   "mongodb+srv://admin:1@cluster0.swg4v.mongodb.net/huyentrang?retryWrites=true&w=majority";
@@ -24,6 +25,7 @@ const app = express();
 app.use(bodyParser.json({ limit: "10mb" }));
 // app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
+app.use("/", user);
 app.use("/", banner);
 app.use("/", address);
 app.use("/", phoneNumber);
