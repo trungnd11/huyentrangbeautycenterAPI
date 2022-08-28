@@ -21,7 +21,7 @@ export const createUser = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   try {
-    const user = UserModel.findOneAndUpdate(
+    const user = await UserModel.findOneAndUpdate(
       { _id: req.body._id },
       req.body,
       { new: true }
