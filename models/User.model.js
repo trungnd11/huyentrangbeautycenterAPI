@@ -5,18 +5,34 @@ const Schema = mongoose.Schema;
 
 const UserSchema = new Schema(
   {
-    name: {
+    username: {
       type: String,
       required: true,
       unique: true,
+      trim: true,
+      minlength: 6,
+    },
+    email: {
+      type: String,
+      unique: true,
+      required: true,
+      trim: true
     },
     password: {
       type: String,
       required: true,
+      trim: true,
+      minlength: 6,
+    },
+    passwordConfirm: {
+      type: String,
+      required: true,
+      trim: true,
+      minlength: 6,
     },
     role: {
       type: String,
-      required: true,
+      enum: ["admin", "customer"],
     },
     avatar: String,
   },

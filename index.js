@@ -3,6 +3,10 @@ import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import cors from "cors";
 import dotenv from "dotenv";
+import expressValidator from "express-validator";
+import morgan from "morgan";
+import session from "express-session";
+import MongoStore from "connect-mongo";
 import address from "./routers/Address.router.js";
 import phoneNumber from "./routers/Phone.router.js";
 import service from "./routers/services/Service.router.js";
@@ -22,9 +26,20 @@ dotenv.config();
 const PORT = process.env.PORT || 5500;
 const app = express();
 
+app.use(morgan("dev"));
 app.use(bodyParser.json({ limit: "10mb" }));
-// app.use(bodyParser.urlencoded({ extended: false }));
+app.use(expressValidator());
 app.use(cors());
+app.use(
+  session({
+    secret: "work hard",
+    resave: true,
+    saveUninitialized: false,
+    store: new MongoStore({
+      mongoUrl: mongoAtlasUri
+    })
+  })
+);
 app.use("/", user);
 app.use("/", banner);
 app.use("/", address);
