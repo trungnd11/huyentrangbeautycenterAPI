@@ -33,11 +33,14 @@ app.use(cors());
 app.use(
   session({
     secret: "work hard",
+    cookie: {
+      maxAge: new Date(Date.now() + 3600 * 1000 * 24),
+    },
     resave: true,
     saveUninitialized: false,
     store: new MongoStore({
-      mongoUrl: mongoAtlasUri
-    })
+      mongoUrl: mongoAtlasUri,
+    }),
   })
 );
 app.use("/", user);
@@ -51,6 +54,15 @@ app.use("/", experience);
 app.use("/", expert);
 app.use("/", galleryCustomer);
 
+app.get("/get-session", (req, res) => {
+  if (req.session.user) {
+    return res.status(200).json({
+      status: "success",
+      userId: req.session.user._id,
+    });
+  }
+  return res.status(200).json({ status: "error", session: "No session" });
+});
 
 try {
   // Connect to the MongoDB cluster
