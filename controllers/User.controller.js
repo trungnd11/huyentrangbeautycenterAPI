@@ -40,23 +40,27 @@ export const registerUser = async (req, res, next) => {
 export const loginUser = (req, res) => {
   UserModel.findOne({ username: req.body.username }).exec(function (err, user) {
     if (err) {
-      return res.json({ err });
+      return res.status(500).json({ err });
     } else if (!user) {
-      return res.json({ err: "Username and Password are incorrect" });
+      return res
+        .status(500)
+        .json({ err: "Username and Password are incorrect" });
     }
     bcrypt.compare(req.body.password, user.password, (err, result) => {
       if (result === true) {
         req.session.user = user;
-        res.json({
+        res.status(200).json({
           user: {
             username: user.username,
             role: user.role,
-            avatar: user.avatar || ""
+            avatar: user.avatar || "",
           },
           login: "success",
         });
       } else {
-        return res.json({ err: "Username and Password are incorrect" });
+        return res
+          .status(500)
+          .json({ err: "Username and Password are incorrect" });
       }
     });
   });
@@ -66,9 +70,9 @@ export const logoutUser = (req, res) => {
   if (req.session) {
     req.session.destroy(function (err) {
       if (err) {
-        return res.json({ err });
+        return res.status(500).json({ err });
       } else {
-        return res.json({ logout: "Success" });
+        return res.status(200).json({ logout: "Success" });
       }
     });
   }
