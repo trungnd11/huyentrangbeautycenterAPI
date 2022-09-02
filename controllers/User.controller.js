@@ -12,8 +12,9 @@ export const getUsers = async (req, res) => {
 
 export const registerUser = async (req, res, next) => {
   try {
-    const isUser = await UserModel.findOne({ email: req.body.email });
-    if (isUser == null) {
+    const isEmail = await UserModel.findOne({ email: req.body.email });
+    const isUsername = await UserModel.findOne({ username: req.body.username });
+    if (isEmail == null && isUsername == null) {
       bcrypt.hash(req.body.password, 10, async (err, hash) => {
         if (err) {
           return next(err);
@@ -24,10 +25,12 @@ export const registerUser = async (req, res, next) => {
         user.passwordConfirm = hash;
         await user.save();
         res.status(201).json(user);
-      })
+      });
+    } else if (isEmail != null) {
+      res.status(500).json({ error: "Email has been used" });
     }
     else {
-      res.status(500).json({ error: "Email has been used" });
+      res.status(500).json({ error: "Username has been used" });
     }
   } catch (error) {
     res.status(500).json({ error });
