@@ -17,6 +17,7 @@ import experience from "./routers/Experience.router.js";
 import expert from "./routers/Expert.router.js";
 import galleryCustomer from "./routers/GalleryCustomer.router.js";
 import user from "./routers/User.router.js";
+import userInfo from "./routers/UserInfo.router.js";
 
 const mongoAtlasUri =
   "mongodb+srv://admin:1@cluster0.swg4v.mongodb.net/huyentrang?retryWrites=true&w=majority";
@@ -26,24 +27,31 @@ dotenv.config();
 const PORT = process.env.PORT || 5500;
 const app = express();
 
+const corsOptions = {
+  origin: "http://localhost:3000",
+  origin: "https://huyentrangtranbeautycenter.herokuapp.com/",
+}
+
+app.use(cors(corsOptions));
 app.use(morgan("dev"));
 app.use(bodyParser.json({ limit: "10mb" }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressValidator());
-app.use(cors());
-app.use(
-  session({
-    secret: "work hard",
-    cookie: {
-      maxAge: new Date(Date.now() + 3600 * 1000 * 24),
-    },
-    resave: true,
-    saveUninitialized: false,
-    store: new MongoStore({
-      mongoUrl: mongoAtlasUri,
-    }),
-  })
-);
+// app.use(
+//   session({
+//     secret: "work hard",
+//     cookie: {
+//       maxAge: new Date(Date.now() + 3600 * 1000 * 24),
+//     },
+//     resave: true,
+//     saveUninitialized: false,
+//     store: new MongoStore({
+//       mongoUrl: mongoAtlasUri,
+//     }),
+//   })
+// );
 app.use("/", user);
+app.use("/", userInfo);
 app.use("/", banner);
 app.use("/", address);
 app.use("/", phoneNumber);
@@ -54,22 +62,24 @@ app.use("/", experience);
 app.use("/", expert);
 app.use("/", galleryCustomer);
 
-app.get("/get-session", (req, res) => {
-  if (req.session.user) {
-    return res.status(200).json({
-      status: "success",
-      userId: req.session.user._id,
-    });
-  }
-  return res.status(200).json({ status: "error", session: "No session" });
-});
+// app.get("/get-session", (req, res) => {
+//   if (req.session.user) {
+//     return res.status(200).json({
+//       status: "success",
+//       userId: req.session.user._id,
+//     });
+//   }
+//   return res.status(200).json({ status: "error", session: "No session" });
+// });
 
 try {
   // Connect to the MongoDB cluster
   mongoose.connect(
     mongoAtlasUri,
     { useNewUrlParser: true, useUnifiedTopology: true },
-    () => console.log(" Mongoose is connected")
+    () => {
+      console.log(" Mongoose is connected");
+    }
   );
   app.listen(PORT, () => {
     console.log(`Server Started at ${PORT}`);

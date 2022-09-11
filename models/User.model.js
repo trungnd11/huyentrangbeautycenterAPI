@@ -1,4 +1,3 @@
-import { Timestamp } from "mongodb";
 import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
@@ -28,10 +27,10 @@ const UserSchema = new Schema(
       trim: true,
       minlength: 6,
     },
-    role: {
-      type: String,
-      enum: ["admin", "customer"],
-    },
+    roles: [{
+      type: Schema.Types.ObjectId,
+      ref: "role"
+    }],
     avatar: String,
   },
   { timestamps: true }

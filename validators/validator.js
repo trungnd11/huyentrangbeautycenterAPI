@@ -1,5 +1,3 @@
-import { UserModel } from "../models/User.model.js"
-
 export const UserValidator = (req, res, next) => {
   req.check("email", "Invalid email.").isEmail();
   req.check("email", "Email is required.").not().isEmpty();
@@ -20,6 +18,20 @@ export const UserValidator = (req, res, next) => {
   const errors = req.validationErrors();
   if (errors) {
     const firstErr = errors.map(err => err.msg)[0];
+    return res.status(400).json({ error: firstErr });
+  }
+  next();
+}
+
+export const LoginValidator = (req, res, next) => {
+  req.check("username", "Username is required.").not().isEmpty();
+  req.check("password", "Password is required.").not().isEmpty();
+  req
+    .check("password", "Password must be more than 6 characters")
+    .isLength({ min: 6 });
+  const errors = req.validationErrors();
+  if (errors) {
+    const firstErr = errors.map((err) => err.msg)[0];
     return res.status(400).json({ error: firstErr });
   }
   next();

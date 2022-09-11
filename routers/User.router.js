@@ -1,31 +1,33 @@
 import express from "express";
-import { loginUser, registerUser, deleteUser, getUsers, updateUser, logoutUser } from "../controllers/User.controller.js";
-import { UserValidator } from "../validators/validator.js";
+import {
+  loginUser,
+  registerUser,
+  deleteUser,
+  getUsers,
+  updateUser,
+  logoutUser,
+  refreshToken,
+} from "../controllers/User.controller.js";
+import { UserValidator, LoginValidator } from "../validators/validator.js";
+import verifySigup from "../middlewares/verifySigup.js";
+import authJwt from "../middlewares/authJwt.js";
 
 const user = express.Router();
 
-const requiresLogout = (req, res, next) => {
-  if (req.session && req.session.user) {
-    return res.json({ err: "You must be Logout in to Login continue" });
-  }
-  else {
-    return next();
-  }
-}
-
-const requiresLogin = (req, res, next) => {
-  if (req.session && req.session.user) {
-    return next();
-  } else {
-    return res.json({ err: "You must be logged in to view this page." });
-  }
-}
-
-user.get("/users", getUsers);
-user.post("/user/register", UserValidator, registerUser);
-user.post("/user/login", requiresLogout, loginUser);
-user.get("/user/logout", requiresLogin, logoutUser);
-user.put("/users", updateUser);
-user.delete("/users/:id", deleteUser);
+user.get("/users", [authJwt.verifyToken, authJwt.isAdmin], getUsers);
+user.post(
+  "/user/register",
+  [
+    UserValidator,
+    verifySigup.checkDuplicateUsernameOrEmail,
+    verifySigup.checkRoleExisted,
+  ],
+  registerUser
+);
+user.post("/user/login", LoginValidator, loginUser);
+user.post("/user/refreshToken", refreshToken);
+user.get("/user/logout", logoutUser);
+user.put("/users", [authJwt.verifyToken, authJwt.isAdmin], updateUser);
+user.delete("/users/:id", [authJwt.verifyToken, authJwt.isAdmin], deleteUser);
 
 export default user;
