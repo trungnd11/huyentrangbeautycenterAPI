@@ -26,7 +26,7 @@ user.post(
 );
 user.post("/user/login", LoginValidator, loginUser);
 user.post("/user/refreshToken", refreshToken);
-user.get("/user/logout", logoutUser);
+user.post("/user/logout", logoutUser);
 user.put("/users", [authJwt.verifyToken, authJwt.isAdmin], updateUser);
 user.delete("/users/:id", [authJwt.verifyToken, authJwt.isAdmin], deleteUser);
 
