@@ -65,6 +65,7 @@ export const loginUser = async (req, res) => {
 
     return res.status(200).json({
       username: user.username,
+      avatar: user.avatar || "",
       roles: author,
       accessToken: token,
       refreshToken: refreshToken,
