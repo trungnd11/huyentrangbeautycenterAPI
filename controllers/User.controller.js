@@ -94,7 +94,7 @@ export const logoutUser = async (req, res) => {
     const token = await TokenModel.remove({
       code: refreshToken,
     });
-    return res.status(400).json({ deleted: token });
+    return res.status(200).json({ deleted: token });
   } catch (error) {
     return res.status(500).json({ err: "Token not found" });
   }
