@@ -25,13 +25,13 @@ dotenv.config();
 const PORT = process.env.PORT || 5500;
 const app = express();
 
-const corsOptions = {
-  origin: "http://localhost:3000",
-  origin: "https://huyentrangtranbeautycenter.herokuapp.com/",
-  origin: "https://huyentrangbeautycenteradmin.herokuapp.com/",
-};
+// const corsOptions = {
+//   origin: "http://localhost:3000",
+//   origin: "https://huyentrangtranbeautycenter.herokuapp.com/",
+//   origin: "https://huyentrangbeautycenteradmin.herokuapp.com/",
+// };
 
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(morgan("dev"));
 app.use(bodyParser.json({ limit: "10mb" }));
 app.use(bodyParser.urlencoded({ extended: true }));
