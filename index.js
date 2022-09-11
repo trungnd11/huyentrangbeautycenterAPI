@@ -5,8 +5,6 @@ import cors from "cors";
 import dotenv from "dotenv";
 import expressValidator from "express-validator";
 import morgan from "morgan";
-import session from "express-session";
-import MongoStore from "connect-mongo";
 import address from "./routers/Address.router.js";
 import phoneNumber from "./routers/Phone.router.js";
 import service from "./routers/services/Service.router.js";
@@ -30,26 +28,14 @@ const app = express();
 const corsOptions = {
   origin: "http://localhost:3000",
   origin: "https://huyentrangtranbeautycenter.herokuapp.com/",
-}
+  origin: "https://huyentrangbeautycenteradmin.herokuapp.com/",
+};
 
 app.use(cors(corsOptions));
 app.use(morgan("dev"));
 app.use(bodyParser.json({ limit: "10mb" }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressValidator());
-// app.use(
-//   session({
-//     secret: "work hard",
-//     cookie: {
-//       maxAge: new Date(Date.now() + 3600 * 1000 * 24),
-//     },
-//     resave: true,
-//     saveUninitialized: false,
-//     store: new MongoStore({
-//       mongoUrl: mongoAtlasUri,
-//     }),
-//   })
-// );
 app.use("/", user);
 app.use("/", userInfo);
 app.use("/", banner);
@@ -61,16 +47,6 @@ app.use("/", about);
 app.use("/", experience);
 app.use("/", expert);
 app.use("/", galleryCustomer);
-
-// app.get("/get-session", (req, res) => {
-//   if (req.session.user) {
-//     return res.status(200).json({
-//       status: "success",
-//       userId: req.session.user._id,
-//     });
-//   }
-//   return res.status(200).json({ status: "error", session: "No session" });
-// });
 
 try {
   // Connect to the MongoDB cluster
