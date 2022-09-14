@@ -16,6 +16,7 @@ import expert from "./routers/Expert.router.js";
 import galleryCustomer from "./routers/GalleryCustomer.router.js";
 import user from "./routers/User.router.js";
 import userInfo from "./routers/UserInfo.router.js";
+import blog from "./routers/Blog.router.js";
 
 const mongoAtlasUri =
   "mongodb+srv://admin:1@cluster0.swg4v.mongodb.net/huyentrang?retryWrites=true&w=majority";
@@ -46,6 +47,7 @@ app.use("/", serviceType);
 app.use("/", about);
 app.use("/", experience);
 app.use("/", expert);
+app.use("/", blog);
 app.use("/", galleryCustomer);
 
 try {
