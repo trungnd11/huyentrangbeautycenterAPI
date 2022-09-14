@@ -9,13 +9,9 @@ export const getBlogs = async (req, res) => {
         .limit(limit)
         .populate("user")
         .exec();
-      console.log(res);
       return res.status(200).json(response);
     }
-    const response = await BlogModel.find()
-      .sort({ createdAt: -1 })
-      .populate("user")
-      .exec();
+    const response = await BlogModel.find().sort({ createdAt: -1 }).populate("user").exec();
     return res.status(200).json(response);
   } catch (error) {
     return res.status(500).json({ error });
@@ -24,8 +20,14 @@ export const getBlogs = async (req, res) => {
 
 export const createBlog = async (req, res) => {
   const requestBlog = req.body;
+  const userId = req.userId;
   try {
-    const newBlog = new BlogModel(requestBlog);
+    const newBlog = new BlogModel({
+      authen: userId,
+      category: requestBlog.category,
+      title: requestBlog.title,
+      content: requestBlog.content,
+    });
     await newBlog.save();
     return res.status(200).json(newBlog);
   } catch (error) {
