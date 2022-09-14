@@ -6,12 +6,10 @@ export const getBlogs = async (req, res) => {
     if (limit) {
       const response = await BlogModel.find()
         .sort({ createdAt: -1 })
-        .limit(limit)
-        .populate("user")
-        .exec();
+        .limit(limit);
       return res.status(200).json(response);
     }
-    const response = await BlogModel.find().sort({ createdAt: -1 }).populate("user").exec();
+    const response = await BlogModel.find().sort({ createdAt: -1 });
     return res.status(200).json(response);
   } catch (error) {
     return res.status(500).json({ error });
