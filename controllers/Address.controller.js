@@ -34,9 +34,7 @@ export const updateAddress = async (req, res) => {
 
 export const deleteAddress = async (req, res) => {
   try {
-    const deleteAdress = await AddressModel.remove(
-      { _id: req.body._id }
-    );
+    const deleteAdress = await AddressModel.remove({ _id: req.params.id });
     res.status(200).json(deleteAdress);
   } catch (error) {
     res.status(500).json({ error });

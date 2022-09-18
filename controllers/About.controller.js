@@ -32,9 +32,7 @@ export const updateAbout = async (req, res) => {
 
 export const deleteAbout = async (req, res) => {
   try {
-    const about = await AboutModel.remove(
-      { _id: req.body._id }
-    );
+    const about = await AboutModel.remove({ _id: req.params.id });
     return res.status(200).json(about);
   } catch (error) {
     return res.status(500).json({ error });

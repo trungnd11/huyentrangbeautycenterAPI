@@ -7,6 +7,6 @@ const phoneNumber = express.Router();
 phoneNumber.get("/phone", getPhone);
 phoneNumber.post("/phone",[authJwt.verifyToken, authJwt.isAdmin], createPhone);
 phoneNumber.put("/phone",[authJwt.verifyToken, authJwt.isAdmin], updatePhone);
-phoneNumber.delete("/phone",[authJwt.verifyToken, authJwt.isAdmin], deletePhone);
+phoneNumber.delete("/phone/:id",[authJwt.verifyToken, authJwt.isAdmin], deletePhone);
 
 export default phoneNumber;

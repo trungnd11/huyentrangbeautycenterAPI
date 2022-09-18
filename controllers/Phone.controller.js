@@ -30,7 +30,7 @@ export const updatePhone = async (req, res) => {
 
 export const deletePhone = async (req, res) => {
   try {
-    const deletePhone = await PhoneModel.remove({ _id: req.body._id });
+    const deletePhone = await PhoneModel.remove({ _id: req.params.id });
     res.status(200).json(deletePhone);
   } catch (error) {
     res.status(500).json({ error });

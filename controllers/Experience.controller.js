@@ -30,9 +30,7 @@ export const updateExperience = async (req, res) => {
 
 export const deleteExperience = async (req, res) => {
   try {
-    const experience = await ExperienceModel.remove(
-      { _id: req.body._id }
-    );
+    const experience = await ExperienceModel.remove({ _id: req.params.id });
     return res.status(200).json(experience);
   } catch (error) {
     return res.status(500).json({ error });

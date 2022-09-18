@@ -7,6 +7,6 @@ const expert = experss.Router();
 expert.get("/expert", getExperts);
 expert.post("/expert",[authJwt.verifyToken, authJwt.isAdmin], createExperts);
 expert.put("/expert",[authJwt.verifyToken, authJwt.isAdmin], updateExperts);
-expert.delete("/expert",[authJwt.verifyToken, authJwt.isAdmin], deleteExperts);
+expert.delete("/expert/:id",[authJwt.verifyToken, authJwt.isAdmin], deleteExperts);
 
 export default expert;

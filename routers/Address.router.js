@@ -7,6 +7,6 @@ const address = express.Router();
 address.get("/address", getAddress);
 address.post("/address",[authJwt.verifyToken, authJwt.isAdmin], createAddress);
 address.put("/address",[authJwt.verifyToken, authJwt.isAdmin], updateAddress);
-address.delete("/address",[authJwt.verifyToken, authJwt.isAdmin], deleteAddress);
+address.delete("/address/:id",[authJwt.verifyToken, authJwt.isAdmin], deleteAddress);
 
 export default address;

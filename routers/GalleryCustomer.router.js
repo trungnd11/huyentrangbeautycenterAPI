@@ -8,6 +8,6 @@ galleryCustomer.get("/gallery-customer", getGalleryCustomer);
 galleryCustomer.get("/gallery-customer/limit-:limit", getGalleryCustomerLimit);
 galleryCustomer.post("/gallery-customer",[authJwt.verifyToken, authJwt.isAdmin], createGalleryCustomer);
 galleryCustomer.put("/gallery-customer",[authJwt.verifyToken, authJwt.isAdmin], updateGalleryCustomer);
-galleryCustomer.delete("/gallery-customer",[authJwt.verifyToken, authJwt.isAdmin], deleteGalleryCustomer);
+galleryCustomer.delete("/gallery-customer/:id",[authJwt.verifyToken, authJwt.isAdmin], deleteGalleryCustomer);
 
 export default galleryCustomer;
