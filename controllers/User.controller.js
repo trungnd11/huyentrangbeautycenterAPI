@@ -80,7 +80,6 @@ export const refreshToken = async (req, res) => {
   try {
     const token = await TokenModel.findOne({ code: reqRefreshToken });
     const decode = verifyToken(token.code, REFRESH_TOKEN);
-    console.log(decode);
     const newToken = generateToken({ _id: decode.id }, ACCESS_TOKEN, ACCESS_TOKEN_LIFE);
     return res.status(200).json({ accessToken: newToken });
   } catch (error) {
