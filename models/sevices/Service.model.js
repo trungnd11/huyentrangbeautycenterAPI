@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
-import { ServiceTypeModel } from "./ServiceType.model.js";
+import mongoosePaginate from "mongoose-paginate-v2"
+import { formatDateToString } from "../../utils/dateUtils.js";
+import { removeFields } from "../../utils/modelUtils.js";
 
 const Schema = mongoose.Schema;
 
@@ -17,5 +19,16 @@ const ServiceSchema = new Schema(
   },
   { timestamps: true }
 );
+
+ServiceSchema.set("toJSON", {
+  getters: true,
+  transform: (_doc, ret) => removeFields(ret),
+});
+
+ServiceSchema.path('createdAt').get((createdAt) => formatDateToString(createdAt));
+
+ServiceSchema.path('updatedAt').get((updatedAt) => formatDateToString(updatedAt));
+
+ServiceSchema.plugin(mongoosePaginate);
 
 export const ServiceModel = mongoose.model("service", ServiceSchema);

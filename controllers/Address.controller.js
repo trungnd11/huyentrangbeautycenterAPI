@@ -22,7 +22,7 @@ export const createAddress = async (req, res) => {
 export const updateAddress = async (req, res) => {
   try {
     const updateAdress = await AddressModel.findOneAndUpdate(
-      { _id: req.body._id },
+      { _id: req.body.id },
       req.body,
       { new: true }
     );

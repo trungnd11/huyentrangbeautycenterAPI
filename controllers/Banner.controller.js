@@ -21,7 +21,7 @@ export const createBanner = async (req, res) => {
 
 export const updateBanner = async (req, res) => {
   try {
-    const banner = await BannerModel.findOneAndUpdate({_id: req.body._id}, req.body, { new: true});
+    const banner = await BannerModel.findOneAndUpdate({_id: req.body.id}, req.body, { new: true });
     return res.status(201).json(banner);
   } catch (error) {
     return res.status(500).json({ error });

@@ -1,4 +1,6 @@
 import mongoose from "mongoose"
+import { formatDateToString } from "../utils/dateUtils.js";
+import { removeFields } from "../utils/modelUtils.js";
 
 const Schema = mongoose.Schema;
 
@@ -30,5 +32,14 @@ const AboutSchema = new Schema(
   },
   { timestamps: true }
 );
+
+AboutSchema.set("toJSON", {
+  getters: true,
+  transform: (_doc, ret) => removeFields(ret),
+});
+
+AboutSchema.path('createdAt').get((createdAt) => formatDateToString(createdAt));
+
+AboutSchema.path('updatedAt').get((updatedAt) => formatDateToString(updatedAt));
 
 export const AboutModel = mongoose.model("about", AboutSchema);

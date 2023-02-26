@@ -14,7 +14,7 @@ export const updateUserInfo = async (req, res) => {
   const reqInfo = req.body;
   console.log(reqInfo)
   try {
-    const userInfo = await UserInfoModel.findByIdAndUpdate({ _id: reqInfo._id }, reqInfo, { new: true });
+    const userInfo = await UserInfoModel.findByIdAndUpdate({ _id: reqInfo.id }, reqInfo, { new: true });
     return res.status(201).json(userInfo);
   } catch (error) {
       return res.status(500).json({ error });

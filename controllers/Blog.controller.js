@@ -37,7 +37,7 @@ export const updateBlog = async (req, res) => {
   const requestBlog = req.body;
   try {
     const updateBlog = await BlogModel.findOneAndUpdate(
-      { _id: requestBlog._id },
+      { _id: requestBlog.id },
       requestBlog,
       { new: true }
     );

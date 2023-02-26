@@ -21,7 +21,7 @@ export const createServiceType = async (req, res) => {
 
 export const updateServiceType = async (req, res) => {
   try {
-    const serviceType = await ServiceTypeModel.findOneAndUpdate({_id: req.body._id}, req.body, { new: true })
+    const serviceType = await ServiceTypeModel.findOneAndUpdate({_id: req.body.id}, req.body, { new: true })
     return res.status(201).json(serviceType);
   } catch (error) {
     return res.status(500).json({ error });

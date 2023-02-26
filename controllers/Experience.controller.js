@@ -21,7 +21,7 @@ export const createExperience = async (req, res) => {
 
 export const updateExperience = async (req, res) => {
   try {
-    const experience = await ExperienceModel.findOneAndUpdate({ _id: req.body._id }, req.body, { new: true });
+    const experience = await ExperienceModel.findOneAndUpdate({ _id: req.body.id }, req.body, { new: true });
     return res.status(201).json(experience);
   } catch (error) {
     return res.status(500).json({ error });

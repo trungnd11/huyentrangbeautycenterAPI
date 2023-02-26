@@ -21,7 +21,7 @@ export const createAbout = async (req, res) => {
 
 export const updateAbout = async (req, res) => {
   try {
-    const about = await AboutModel.findOneAndUpdate({ _id: req.body._id }, req.body, {
+    const about = await AboutModel.findOneAndUpdate({ _id: req.body.id }, req.body, {
       new: true
     });
     return res.status(201).json(about);

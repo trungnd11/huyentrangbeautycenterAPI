@@ -21,7 +21,7 @@ export const createExperts = async (req, res) => {
 
 export const updateExperts = async (req, res) => {
   try {
-    const experts = await ExpertModel.findOneAndUpdate({ _id: req.body._id }, req.body, { new: true });
+    const experts = await ExpertModel.findOneAndUpdate({ _id: req.body.id }, req.body, { new: true });
     return res.status(201).json(experts);
   } catch (error) {
     return res.status(500).json({ error });

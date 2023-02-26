@@ -3,10 +3,14 @@ import { ServiceModel } from "../../models/sevices/Service.model.js";
 import { ServiceTypeModel } from "../../models/sevices/ServiceType.model.js";
 
 export const getService = async (req, res) => {
+  const options = {
+    page: req.query.page || 1,
+    limit: req.query.limit || 5,
+    populate: "serviceType",
+    sort: { name: req.query.orderBy || "asc" }
+  };
   try {
-    const service = await ServiceModel.find()
-      .populate("serviceType")
-      .exec();
+    const service = await ServiceModel.paginate({}, options);
     return res.status(200).json(service);
   } catch (error) {
     return res.status(500).json({ error });
@@ -23,10 +27,14 @@ export const getServiceLimit = async (req, res) => {
 };
 
 export const findServiceByType = async (req, res) => {
+  const options = {
+    page: req.query.page || 1,
+    limit: req.query.limit || 5,
+    sort: { name: req.query.orderBy || "asc" }
+  };
+  const condition = { serviceType: req.body.serviceType }
   try {
-    const services = await ServiceModel.find().or({
-      serviceType: req.body.serviceType,
-    });
+    const services = await ServiceModel.paginate(condition, options);
     return res.status(200).json(services);
   } catch (error) {
     return res.status(500).json({ error });
@@ -69,7 +77,7 @@ export const updateService = async (req, res) => {
   
   try {
     const service = await ServiceModel.findOneAndUpdate(
-      { _id: reqService._id },
+      { _id: reqService.id },
       {
         name: reqService.name,
         image: reqService.image,
@@ -80,7 +88,7 @@ export const updateService = async (req, res) => {
     );
     if (reqService.detailService) {
       const detailService = await ServiceDetailModel.findOneAndUpdate(
-        { _id: reqService.detailService._id },
+        { _id: reqService.detailService.id },
         {
           details: reqService.detailService.details,
         },

@@ -21,7 +21,7 @@ export const createPhone = async (req, res) => {
 
 export const updatePhone = async (req, res) => {
   try {
-    const phoneNumber = await PhoneModel.findOneAndUpdate({ _id: req.body._id }, req.body, { new: true });
+    const phoneNumber = await PhoneModel.findOneAndUpdate({ _id: req.body.id }, req.body, { new: true });
     res.status(201).json(phoneNumber);
   } catch (error) {
     res.status(500).json({ error });
