@@ -18,13 +18,12 @@ import user from "./routers/User.router.js";
 import userInfo from "./routers/UserInfo.router.js";
 import blog from "./routers/Blog.router.js";
 
-const mongoAtlasUri =
-  "mongodb+srv://admin:1@cluster0.swg4v.mongodb.net/huyentrang?retryWrites=true&w=majority";
-
 dotenv.config();
 
 const PORT = process.env.PORT || 5500;
 const app = express();
+
+const mongoAtlasUri = process.env.MONGGO_URI;
 
 // const corsOptions = {
 //   origin: "http://localhost:3000",
