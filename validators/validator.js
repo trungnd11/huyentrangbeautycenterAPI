@@ -25,10 +25,12 @@ export const UserValidator = (req, res, next) => {
 
 export const LoginValidator = (req, res, next) => {
   req.check("username", "Username is required.").not().isEmpty();
-  req.check("password", "Password is required.").not().isEmpty();
-  req
-    .check("password", "Password must be more than 6 characters")
-    .isLength({ min: 6 });
+  if (!req.body.isNotPassword) {
+    req.check("password", "Password is required.").not().isEmpty();
+    req
+      .check("password", "Password must be more than 6 characters")
+      .isLength({ min: 6 });
+  }
   const errors = req.validationErrors();
   if (errors) {
     const firstErr = errors.map((err) => err.msg)[0];

@@ -1,17 +1,32 @@
 import { UserModel } from "../models/User.model.js";
 import { RoleModel } from "../models/Role.model.js";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import { ACCESS_TOKEN, REFRESH_TOKEN, ACCESS_TOKEN_LIFE, REFRESH_TOKEN_LIFE } from "../config/auth.config.js";
 import { TokenModel } from "../models/Token.model.js";
 import { generateToken, verifyToken } from "../jwtHelper/jwtHelper.js";
 import { UserInfoModel } from "../models/UserInfo.model.js";
+import { ErrorException } from "../exceptions/errorException.js";
 
-export const getUsers = async (req, res) => {
+export const getUsers = async (_req, res) => {
   try {
     const users = await UserModel.find().populate("roles").exec();
     return res.status(200).json(users);
   } catch (error) {
+    return res.status(500).json({ error });
+  }
+};
+
+export const findByUsername = async (req, res) => {
+  const email = req.query.email;
+  
+  if (!email) {
+    res.status(400).json(ErrorException.getRequired("email"));
+  }
+
+  try {
+    const user = await UserModel.findOne({ email }).populate("roles").exec();
+    return res.status(200).json({ username: user.username, email: user.email });
+  } catch (error) { 
     return res.status(500).json({ error });
   }
 };
@@ -42,15 +57,21 @@ export const registerUser = async (req, res, next) => {
 };
 
 export const loginUser = async (req, res) => {
+  
   try {
     const user = await UserModel.findOne({
-      username: req.body.username,
+      $or: [
+        { username: req.body.username },
+        { email: req.body.username },
+      ],
     })
       .populate("roles")
       .exec();
     if (!user) res.status(400).json({ err: "User can not found" });
-    const checkPassword = bcrypt.compareSync(req.body.password, user.password);
-    if (!checkPassword) res.status(401).json({ err: "Invalid password" });
+    if (!req.body.isNotPassword) {
+      const checkPassword = bcrypt.compareSync(req.body.password, user.password);
+      if (!checkPassword) res.status(401).json({ err: "Invalid password" });
+    }
     const author = user.roles.map((role) => {
       return `ROLE_${role.name.toUpperCase()}`;
     });

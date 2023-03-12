@@ -7,6 +7,7 @@ import {
   updateUser,
   logoutUser,
   refreshToken,
+  findByUsername,
 } from "../controllers/User.controller.js";
 import { UserValidator, LoginValidator } from "../validators/validator.js";
 import verifySigup from "../middlewares/verifySigup.js";
@@ -15,6 +16,7 @@ import authJwt from "../middlewares/authJwt.js";
 const user = express.Router();
 
 user.get("/users", [authJwt.verifyToken, authJwt.isAdmin], getUsers);
+user.get("/user", findByUsername);
 user.post(
   "/user/register",
   [
